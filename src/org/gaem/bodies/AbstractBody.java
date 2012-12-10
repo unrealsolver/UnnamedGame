@@ -1,19 +1,32 @@
 package org.gaem.bodies;
 
+import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Drawable;
+import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
 public abstract class AbstractBody implements Drawable{
+	// ...:
+	private RectangleShape boundingBox = new RectangleShape();
+	{
+		boundingBox.setOutlineColor(Color.WHITE);
+		boundingBox.setOutlineThickness(2);
+		boundingBox.setFillColor(Color.TRANSPARENT);
+	}
+	
 	// Geometry:
-	protected Vector2f position;
-	protected Vector2f size;
+	private Vector2f position;
+	private Vector2f size;
 	private Vector2f origin;
 	
 	// Behavior:
 	private boolean killer;
 	private boolean immortal;
+	
+	// Drawing:
+	private boolean bounded;
 	
 	// Boilerplate:
 	public Vector2f getPosition() {
@@ -22,6 +35,7 @@ public abstract class AbstractBody implements Drawable{
 	
 	public void setPosition(Vector2f position) {
 		this.position = position;
+		boundingBox.setPosition(position);
 	}
 	
 	public Vector2f getSize() {
@@ -30,6 +44,7 @@ public abstract class AbstractBody implements Drawable{
 	
 	public void setSize(Vector2f size) {
 		this.size = size;
+		boundingBox.setSize(size);
 	}
 	
 	public Vector2f getOrigin() {
@@ -56,10 +71,29 @@ public abstract class AbstractBody implements Drawable{
 		this.immortal = immortal;
 	}
 	
+	public boolean isBounded() {
+		return bounded;
+	}
+	
+	public void setBounded(boolean bounded) {
+		this.bounded = bounded;
+	}
+	
 	// Useful stuff:
 	public void move (Vector2f vector) {
 		//TODO: Implement overloaded Vector2f.add(Vector2f)
 		position = Vector2f.add(position, vector);
+		boundingBox.move(vector);
+	}
+	
+	public void move(float x, float y) {
+		move(new Vector2f(x, y));
+	}
+	
+	public void drawBoundingBox(RenderTarget target, RenderStates states) {
+		if(bounded) {
+			target.draw(boundingBox, states);
+		}
 	}
 	
 	// Interface:

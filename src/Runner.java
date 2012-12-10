@@ -27,6 +27,10 @@ class Runner {
 		float fps;
 		int fpsCounter = 0;
 		
+		// [COLOURS]
+		Color bgColor = new Color(127, 127, 255);
+		
+		// [FONTS]
 		Font coolFont = new Font();
 		try {
 		    coolFont.loadFromFile(new File("resources/visitor1.ttf"));
@@ -35,10 +39,21 @@ class Runner {
 		    e.printStackTrace();
 		}
 		
+		// [TEXTURES]
+		Texture groundTexture = new Texture();
+		Texture catTexture = new Texture();
+		try {
+			groundTexture.loadFromFile(new File("resources/ground.png"));
+			catTexture.loadFromFile(new File("resources/cat.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// [TEXTS]
 		Text fpsText = new Text(" ", coolFont,24);
 		fpsText.setPosition(10, 0);
-		//fpsText.setColor(Color.WHITE);
-		
+
+		// [ENTITIES]
 		CircleShape circle = new CircleShape(75, 6);
 		circle.setFillColor(new Color(240, 220, 30));
 		circle.setOrigin(55, 55);
@@ -46,17 +61,11 @@ class Runner {
 		
 		AbstractBody dummy = new DummyBody (new Vector2f(100,100), new Vector2f(100, 100));
 		
-		Texture groundTexture = new Texture();
-		try {
-			groundTexture.loadFromFile(new File("resources/ground.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		AbstractBody dummy2 = new TexturedBody(new Vector2f(300,160), new Vector2f(100, 100), 
-				groundTexture);
+		TexturedBody dummy2 = new TexturedBody(new Vector2f(300,160), groundTexture);
+		dummy2.scale(4);
 		
-		Color bgColor = new Color(127, 127, 255);
+		TexturedBody cat = new TexturedBody(new Vector2f(400,280), catTexture);
+		cat.scale(1);
 		
 		while(window.isOpen()) {
 			deltaTime = frameClock.restart();
@@ -64,14 +73,14 @@ class Runner {
 		    fps = 1/deltaSeconds;
 		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.UP)) {
-		    	circle.move(0,-1);
+		    	cat.move(0,-1);
 		    } else if (Keyboard.isKeyPressed(Keyboard.Key.DOWN)) {
-		    	circle.move(0,1);
+		    	cat.move(0,1);
 		    }
 		    if (Keyboard.isKeyPressed(Keyboard.Key.LEFT)) {
-		    	circle.move(-1,0);
+		    	cat.move(-1,0);
 		    }  else if (Keyboard.isKeyPressed(Keyboard.Key.RIGHT)) {
-		    	circle.move(1,0);
+		    	cat.move(1,0);
 		    }
 		    
 			if (fpsCounter++ > 10) {
@@ -86,6 +95,7 @@ class Runner {
 		    window.draw(fpsText);
 		    window.draw(dummy);
 		    window.draw(dummy2);
+		    window.draw(cat);
 		    window.display();
 
 		    //Handle events
