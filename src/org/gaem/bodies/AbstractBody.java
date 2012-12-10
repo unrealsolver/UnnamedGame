@@ -2,6 +2,7 @@ package org.gaem.bodies;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Drawable;
+import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
@@ -81,13 +82,22 @@ public abstract class AbstractBody implements Drawable{
 	
 	// Useful stuff:
 	public void move (Vector2f vector) {
-		//TODO: Implement overloaded Vector2f.add(Vector2f)
-		position = Vector2f.add(position, vector);
-		boundingBox.move(vector);
+		//TODO: Implement overloaded Vector2f.add(Vector2f) //SHIT
+		setPosition(Vector2f.add(position, vector));
 	}
 	
+	//TODO SHIT
 	public void move(float x, float y) {
 		move(new Vector2f(x, y));
+	}
+	
+	//TODO ?
+	public boolean checkCollision(AbstractBody other) {
+		FloatRect otherRect = new FloatRect(other.position, other.size);
+		if (otherRect.contains(position)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void drawBoundingBox(RenderTarget target, RenderStates states) {

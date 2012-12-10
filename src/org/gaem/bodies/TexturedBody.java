@@ -40,8 +40,8 @@ public class TexturedBody extends DummyBody {
 	
 	@Override
 	public void move(float x, float y) {
-		super.move(x, y);
-		sprite.move(x, y);
+		super.move(x, y); //shit <- super
+		sprite.move(x, y);//gut <- SFML
 	}
 	
 	@Override
