@@ -1,8 +1,10 @@
 import java.io.File;
 import java.io.IOException;
 
+import org.gaem.ObjectManager;
 import org.gaem.bodies.AbstractBody;
 import org.gaem.bodies.DummyBody;
+import org.gaem.bodies.Player;
 import org.gaem.bodies.TexturedBody;
 import org.jsfml.graphics.*;
 import org.jsfml.system.*;
@@ -49,6 +51,9 @@ class Runner {
 			e.printStackTrace();
 		}
 		
+		// [OBJECT MANAGER]
+		ObjectManager objects = new ObjectManager(window);
+		
 		// [TEXTS]
 		Text fpsText = new Text(" ", coolFont,24);
 		fpsText.setPosition(10, 0);
@@ -60,12 +65,16 @@ class Runner {
 		circle.setPosition(200, 200);
 		
 		AbstractBody dummy = new DummyBody (new Vector2f(100,100), new Vector2f(100, 100));
+		objects.add(dummy);
 		
 		TexturedBody dummy2 = new TexturedBody(new Vector2f(300,160), groundTexture);
 		dummy2.scale(4);
+		objects.add(dummy2);
 		
-		TexturedBody cat = new TexturedBody(new Vector2f(400,280), catTexture);
+		Player cat = new Player(new Vector2f(400,280), catTexture);
 		cat.scale(1);
+		cat.setObjectManager(objects);
+		objects.add(cat);
 		
 		while(window.isOpen()) {
 			deltaTime = frameClock.restart();
@@ -93,9 +102,10 @@ class Runner {
 		    circle.setRotation(deltaSeconds * 50 + circle.getRotation());
 		    window.draw(circle);
 		    window.draw(fpsText);
-		    window.draw(dummy);
-		    window.draw(dummy2);
-		    window.draw(cat);
+		    //window.draw(dummy);
+		    //window.draw(dummy2);
+		    //window.draw(cat);
+		    objects.drawAll();
 		    window.display();
 
 		    //Handle events

@@ -94,6 +94,7 @@ public abstract class AbstractBody implements Drawable{
 	//TODO ?
 	public boolean checkCollision(AbstractBody other) {
 		FloatRect otherRect = new FloatRect(other.position, other.size);
+		System.out.println(other.getPosition());
 		if (otherRect.contains(position)) {
 			return true;
 		}
