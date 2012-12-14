@@ -2,21 +2,14 @@ import java.io.File;
 import java.io.IOException;
 
 import org.gaem.ObjectManager;
-import org.gaem.bodies.AbstractBody;
-import org.gaem.bodies.DummyBody;
-import org.gaem.bodies.Player;
-import org.gaem.bodies.TexturedBody;
+import org.gaem.bodies.*;
 import org.jsfml.graphics.*;
 import org.jsfml.system.*;
 import org.jsfml.window.*;
 import org.jsfml.window.event.Event;
 
 class Runner {
-	
-	private class Entity {
-		
-	}
-	
+
 	public static void main(String[] args) {
 		RenderWindow window = new RenderWindow();
 		window.create(new VideoMode(640, 480), "Hello!");
@@ -44,9 +37,13 @@ class Runner {
 		// [TEXTURES]
 		Texture groundTexture = new Texture();
 		Texture catTexture = new Texture();
+		Texture jockerTexture = new Texture();
+		Texture jockerMirrorTexture = new Texture();
 		try {
 			groundTexture.loadFromFile(new File("resources/ground.png"));
 			catTexture.loadFromFile(new File("resources/cat.png"));
+			jockerTexture.loadFromFile(new File("resources/jocker.png"));
+			jockerMirrorTexture.loadFromFile(new File("resources/jocker_mirrored.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,19 +58,32 @@ class Runner {
 		// [ENTITIES]
 		CircleShape circle = new CircleShape(75, 6);
 		circle.setFillColor(new Color(240, 220, 30));
-		circle.setOrigin(55, 55);
+		circle.setOrigin(75, 75);
 		circle.setPosition(200, 200);
 		
-		AbstractBody dummy = new DummyBody (new Vector2f(100,100), new Vector2f(100, 100));
+		TexturedBody dummy = new TexturedBody (new Vector2f(100,100), groundTexture);
 		objects.add(dummy);
+		((TexturedBody) objects.getLast()).scale(4);
 		
 		TexturedBody dummy2 = new TexturedBody(new Vector2f(300,160), groundTexture);
 		dummy2.scale(4);
 		objects.add(dummy2);
 		
-		Player cat = new Player(new Vector2f(400,280), catTexture);
-		cat.scale(1);
+		objects.add(new StaticBody(new Vector2f (420, 210), new Vector2f(30, 30)));
+		objects.add(new StaticBody(new Vector2f (450, 280), new Vector2f(60, 40)));
+		objects.add(new StaticBody(new Vector2f (600, 180), new Vector2f(30, 200)));
+		objects.add(new StaticBody(new Vector2f (500, 380), new Vector2f(130, 40)));
+		objects.add(new StaticBody(new Vector2f (30, 420), new Vector2f(600, 20)));
+		objects.add(new StaticTexturedBody(new Vector2f (330, 320), groundTexture));
+		objects.add(new StaticTexturedBody(new Vector2f (150, 220), groundTexture));
+		//((TexturedBody) objects.getLast()).scale(4);
+		
+		Player cat = new Player(new Vector2f(300, 80), jockerTexture);
+		cat.scale(2);
 		cat.setObjectManager(objects);
+		cat.setBounded(false);
+		cat.setNormalTexture(jockerTexture);
+		cat.setMirrorTexture(jockerMirrorTexture);
 		objects.add(cat);
 		
 		while(window.isOpen()) {
@@ -82,20 +92,23 @@ class Runner {
 		    fps = 1/deltaSeconds;
 		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.UP)) {
-		    	cat.move(0,-1);
+		    	cat.jump();
 		    } else if (Keyboard.isKeyPressed(Keyboard.Key.DOWN)) {
-		    	cat.move(0,1);
+		    	//cat.move(0,2);
 		    }
+		    final float SPEED = 200;
 		    if (Keyboard.isKeyPressed(Keyboard.Key.LEFT)) {
-		    	cat.move(-1,0);
+		    	cat.run(-SPEED);
 		    }  else if (Keyboard.isKeyPressed(Keyboard.Key.RIGHT)) {
-		    	cat.move(1,0);
+		    	cat.run(SPEED);
 		    }
 		    
 			if (fpsCounter++ > 10) {
 				fpsText.setString("fps: " + Integer.toString((int) fps));
 		    	fpsCounter = 0;
 		    }
+			
+			objects.updateAll(deltaSeconds);
 			
 		    window.clear(bgColor);
 

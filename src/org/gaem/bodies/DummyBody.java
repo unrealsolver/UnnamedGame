@@ -6,6 +6,7 @@ import org.jsfml.system.Vector2f;
 public class DummyBody extends AbstractBody {
 	
 	public DummyBody(Vector2f position, Vector2f size) {
+		super(position, size);
 		setPosition(position);
 		setSize(size);
 		setBounded(true);

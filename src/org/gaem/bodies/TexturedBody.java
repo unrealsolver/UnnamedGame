@@ -33,6 +33,10 @@ public class TexturedBody extends DummyBody {
 		setSize(new Vector2f(rect.width, rect.height));
 	}
 	
+	public void scaleImg(float amount) {
+		sprite.setScale(new Vector2f(amount, amount));
+	}
+	
 	public void scale(float amount) {
 		sprite.setScale(new Vector2f(amount, amount));
 		setSize(Vector2f.mul(getSize(), amount));
@@ -54,5 +58,5 @@ public class TexturedBody extends DummyBody {
 	public void update(float dt) {
 		// TODO Auto-generated method stub	
 	}
-
+	
 }

@@ -21,6 +21,10 @@ public class ObjectManager {
 		this.renderTarget = renderTarget;
 	}
 	
+	public AbstractBody getLast() {
+		return objects.get(objects.size() - 1);
+	}
+	
 	public void add(AbstractBody body) {
 		objects.add(body);
 	}

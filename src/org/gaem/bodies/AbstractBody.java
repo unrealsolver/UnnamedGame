@@ -12,9 +12,10 @@ public abstract class AbstractBody implements Drawable{
 	// ...:
 	private RectangleShape boundingBox = new RectangleShape();
 	{
-		boundingBox.setOutlineColor(Color.WHITE);
-		boundingBox.setOutlineThickness(2);
+		boundingBox.setOutlineColor(Color.BLACK);
+		boundingBox.setOutlineThickness(-2);
 		boundingBox.setFillColor(Color.TRANSPARENT);
+		setBounded(true);
 	}
 	
 	// Geometry:
@@ -28,6 +29,21 @@ public abstract class AbstractBody implements Drawable{
 	
 	// Drawing:
 	private boolean bounded;
+	
+	public AbstractBody() {
+		setPosition(new Vector2f(0, 0));
+		setSize(new Vector2f(10, 10));
+	}
+	
+	public AbstractBody(Vector2f position) {
+		setPosition(position);
+		setSize(new Vector2f(10, 10));
+	}
+	
+	public AbstractBody(Vector2f position, Vector2f size) {
+		setPosition(position);
+		setSize(size);
+	}
 	
 	// Boilerplate:
 	public Vector2f getPosition() {
@@ -94,10 +110,21 @@ public abstract class AbstractBody implements Drawable{
 	//TODO ?
 	public boolean checkCollision(AbstractBody other) {
 		FloatRect otherRect = new FloatRect(other.position, other.size);
-		System.out.println(other.getPosition());
-		if (otherRect.contains(position)) {
+		if (otherRect.contains(position) ||
+				otherRect.contains(position.x + size.x, position.y) ||
+				otherRect.contains(position.x, position.y + size.y) ||
+				otherRect.contains(position.x + size.x, position.y + size.y)){
 			return true;
 		}
+		
+		FloatRect thisRect = new FloatRect(this.position, this.size);
+		if (thisRect.contains(other.position) ||
+				thisRect.contains(other.position.x + other.size.x, other.position.y) ||
+				thisRect.contains(other.position.x, other.position.y + other.size.y) ||
+				thisRect.contains(other.position.x + other.size.x, other.position.y + other.size.y)){
+			return true;
+		}
+		
 		return false;
 	}
 	
