@@ -5,6 +5,7 @@ import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
 public class StaticBody extends AbstractBody {
+	protected final static float DEFAULT_SCALE = 4;
 	
 	public StaticBody() {
 		super();

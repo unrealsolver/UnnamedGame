@@ -70,7 +70,6 @@ public class Player extends TexturedBody {
 			super.move(-x, 0);
 			v = new Vector2f(0, v.y);
 		}
-	
 		super.move(0, y);
 		if (objects.testCollision(this)) {
 			super.move(0, -y);

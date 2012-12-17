@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 
+import org.gaem.Camera;
 import org.gaem.ObjectManager;
 import org.gaem.bodies.*;
 import org.jsfml.graphics.*;
@@ -21,6 +22,10 @@ class Runner {
 		float deltaSeconds;
 		float fps;
 		int fpsCounter = 0;
+		// [VIEWS[
+		View cam = new View(new Vector2f(500, 300), new Vector2f(640,480));
+		Camera camera = new Camera();
+		camera.setView(cam);
 		
 		// [COLOURS]
 		Color bgColor = new Color(127, 127, 255);
@@ -93,14 +98,17 @@ class Runner {
 		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.UP)) {
 		    	cat.jump();
+		    	//cat.move(0,-2);
 		    } else if (Keyboard.isKeyPressed(Keyboard.Key.DOWN)) {
 		    	//cat.move(0,2);
 		    }
 		    final float SPEED = 200;
 		    if (Keyboard.isKeyPressed(Keyboard.Key.LEFT)) {
 		    	cat.run(-SPEED);
+		    	//cat.move(-2, 0);
 		    }  else if (Keyboard.isKeyPressed(Keyboard.Key.RIGHT)) {
 		    	cat.run(SPEED);
+		    	//cat.move(2, 0);
 		    }
 		    
 			if (fpsCounter++ > 10) {
@@ -111,13 +119,13 @@ class Runner {
 			objects.updateAll(deltaSeconds);
 			
 		    window.clear(bgColor);
-
+		    
+		    //cam.setCenter(cat.getPosition());
+		    camera.setActorPos(cat.getPosition());
+		    window.setView(cam);
 		    circle.setRotation(deltaSeconds * 50 + circle.getRotation());
 		    window.draw(circle);
 		    window.draw(fpsText);
-		    //window.draw(dummy);
-		    //window.draw(dummy2);
-		    //window.draw(cat);
 		    objects.drawAll();
 		    window.display();
 
