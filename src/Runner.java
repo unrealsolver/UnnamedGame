@@ -61,26 +61,22 @@ class Runner {
 		fpsText.setPosition(10, 0);
 
 		// [ENTITIES]
-		CircleShape circle = new CircleShape(75, 6);
+		CircleShape circle = new CircleShape(75, 9);
 		circle.setFillColor(new Color(240, 220, 30));
 		circle.setOrigin(75, 75);
-		circle.setPosition(200, 200);
+		circle.setPosition(100, -100);
 		
-		TexturedBody dummy = new TexturedBody (new Vector2f(100,100), groundTexture);
-		objects.add(dummy);
-		((TexturedBody) objects.getLast()).scale(4);
-		
-		TexturedBody dummy2 = new TexturedBody(new Vector2f(300,160), groundTexture);
-		dummy2.scale(4);
-		objects.add(dummy2);
-		
-		objects.add(new StaticBody(new Vector2f (420, 210), new Vector2f(30, 30)));
-		objects.add(new StaticBody(new Vector2f (450, 280), new Vector2f(60, 40)));
-		objects.add(new StaticBody(new Vector2f (600, 180), new Vector2f(30, 200)));
+		objects.add(new StaticBody(new Vector2f (550, 300), new Vector2f(40, 40)));
+		objects.add(new StaticBody(new Vector2f (600, 180), new Vector2f(300, 30)));
+		objects.add(new StaticBody(new Vector2f (330, 260), new Vector2f(100, 30)));
+		objects.add(new StaticBody(new Vector2f (600, 180), new Vector2f(30, 240)));
 		objects.add(new StaticBody(new Vector2f (500, 380), new Vector2f(130, 40)));
-		objects.add(new StaticBody(new Vector2f (30, 420), new Vector2f(600, 20)));
-		objects.add(new StaticTexturedBody(new Vector2f (330, 320), groundTexture));
-		objects.add(new StaticTexturedBody(new Vector2f (150, 220), groundTexture));
+		objects.add(new StaticBody(new Vector2f (10, 420), new Vector2f(600, 20)));
+		objects.add(new StaticBody(new Vector2f (10, 0), new Vector2f(20, 440)));
+		objects.add(new StaticTexturedBody(new Vector2f (30, 320), groundTexture));
+		objects.add(new StaticTexturedBody(new Vector2f (30, 220), groundTexture));
+		objects.add(new StaticTexturedBody(new Vector2f (130, 320), groundTexture));
+		//objects.add(new StaticTexturedBody(new Vector2f (150, 220), groundTexture));
 		//((TexturedBody) objects.getLast()).scale(4);
 		
 		Player cat = new Player(new Vector2f(300, 80), jockerTexture);
@@ -120,13 +116,16 @@ class Runner {
 			
 		    window.clear(bgColor);
 		    
-		    //cam.setCenter(cat.getPosition());
 		    camera.setActorPos(cat.getPosition());
 		    window.setView(cam);
 		    circle.setRotation(deltaSeconds * 50 + circle.getRotation());
 		    window.draw(circle);
-		    window.draw(fpsText);
+		    
 		    objects.drawAll();
+		    
+		    window.setView(window.getDefaultView());
+		    window.draw(fpsText);
+		    
 		    window.display();
 
 		    //Handle events
@@ -136,7 +135,7 @@ class Runner {
 		            window.close();
 		        }
 		    }
-		}
 		
+		}
 	}
 }
