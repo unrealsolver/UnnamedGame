@@ -4,7 +4,7 @@ import org.jsfml.graphics.*;
 import org.jsfml.system.*;
 
 public class TexturedBody extends DummyBody {
-	private Sprite sprite;
+	protected Sprite sprite;
 	
 	public TexturedBody(Vector2f position, Vector2f size, Texture texture) {
 		super(position, size);
