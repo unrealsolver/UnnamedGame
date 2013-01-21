@@ -4,9 +4,10 @@ import org.gaem.ObjectManager;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
+import org.gaem.bodies.AbstractBody;
 
 public class Player extends TexturedBody {
-	
+	//FIXME СРАНЫЙ БАРДАК
 	Texture mirror = new Texture();
 	Texture normal = new Texture();
 	
@@ -21,7 +22,11 @@ public class Player extends TexturedBody {
 	}
 	
 	public Player(Vector2f position, Texture texture) {
-		super(position, texture);
+		super(position, new Vector2f());
+		//setPosition(position);
+		setTexture(texture);
+		fitCanvasToTexture();
+		//super(position, texture);
 	}
 	
 	public void setObjectManager(ObjectManager objects) {
@@ -62,6 +67,7 @@ public class Player extends TexturedBody {
 		isRunning = true;
 	}
 	
+	//TODO Move to super
 	@Override
 	public void move(float x, float y) {
 		

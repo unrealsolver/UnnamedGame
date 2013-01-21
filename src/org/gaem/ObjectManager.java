@@ -29,6 +29,8 @@ public class ObjectManager {
 		objects.add(body);
 	}
 	
+	//TODO Return object or null
+	//TODO Rename
 	public boolean testCollision(AbstractBody body) {
 		for(AbstractBody object : objects) {
 			if (object != body) {

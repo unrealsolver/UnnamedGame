@@ -66,16 +66,16 @@ class Runner {
 		circle.setOrigin(75, 75);
 		circle.setPosition(100, -100);
 		
-		objects.add(new StaticBody(new Vector2f (550, 300), new Vector2f(40, 40)));
-		objects.add(new StaticBody(new Vector2f (600, 180), new Vector2f(300, 30)));
-		objects.add(new StaticBody(new Vector2f (330, 260), new Vector2f(100, 30)));
-		objects.add(new StaticBody(new Vector2f (600, 180), new Vector2f(30, 240)));
-		objects.add(new StaticBody(new Vector2f (500, 380), new Vector2f(130, 40)));
-		objects.add(new StaticBody(new Vector2f (10, 420), new Vector2f(600, 20)));
-		objects.add(new StaticBody(new Vector2f (10, 0), new Vector2f(20, 440)));
-		objects.add(new StaticTexturedBody(new Vector2f (30, 320), groundTexture));
-		objects.add(new StaticTexturedBody(new Vector2f (30, 220), groundTexture));
-		objects.add(new StaticTexturedBody(new Vector2f (130, 320), groundTexture));
+		objects.add(new TexturedBody(new Vector2f (550, 300), new Vector2f(40, 40)));
+		objects.add(new TexturedBody(new Vector2f (600, 180), new Vector2f(300, 30)));
+		objects.add(new TexturedBody(new Vector2f (330, 260), new Vector2f(100, 30)));
+		objects.add(new TexturedBody(new Vector2f (600, 180), new Vector2f(30, 240)));
+		objects.add(new TexturedBody(new Vector2f (500, 380), new Vector2f(130, 40)));
+		objects.add(new TexturedBody(new Vector2f (10, 420), new Vector2f(600, 20)));
+		objects.add(new TexturedBody(new Vector2f (10, 0), new Vector2f(20, 440)));
+		objects.add(new TexturedBody(new Vector2f (30, 320), groundTexture));
+		objects.add(new TexturedBody(new Vector2f (30, 220), groundTexture));
+		objects.add(new TexturedBody(new Vector2f (130, 320), groundTexture));
 		//objects.add(new StaticTexturedBody(new Vector2f (150, 220), groundTexture));
 		//((TexturedBody) objects.getLast()).scale(4);
 		

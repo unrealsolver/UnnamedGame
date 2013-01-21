@@ -62,6 +62,7 @@ public abstract class AbstractBody implements Drawable{
 	public void setSize(float x, float y) {
 		this.size = new Vector2f(x, y);
 		boundingBox.setSize(size);
+		System.out.println(size);
 	}
 	
 	public void setSize(Vector2f size) {

@@ -3,7 +3,7 @@ package org.gaem.bodies;
 import org.jsfml.graphics.*;
 import org.jsfml.system.*;
 
-public class TexturedBody extends DummyBody {
+public class TexturedBody extends AbstractBody {
 	protected Sprite sprite;
 	
 	public TexturedBody(Vector2f position, Vector2f size, Texture texture) {
@@ -11,10 +11,20 @@ public class TexturedBody extends DummyBody {
 		setTexture(texture);
 	}
 	
+	public TexturedBody(Vector2f position, Vector2f size) {
+		super(position, size);
+		sprite = new Sprite();
+	}
+	
 	public TexturedBody(Vector2f position, Texture texture) {
 		super(position, new Vector2f());
 		setTexture(texture);
+		//scale(4);
+		//setSize(10000, 1000);
+		//setSize(10, 100);
+		
 		fitCanvasToTexture();
+		scale(4);
 	}
 	
 	public void setTexture(Texture texture) {
@@ -56,7 +66,6 @@ public class TexturedBody extends DummyBody {
 
 	@Override
 	public void update(float dt) {
-		// TODO Auto-generated method stub	
+		
 	}
-	
 }
