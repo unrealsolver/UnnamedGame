@@ -8,6 +8,7 @@ import org.jsfml.graphics.*;
 import org.jsfml.system.*;
 import org.jsfml.window.*;
 import org.jsfml.window.event.Event;
+import org.jsfml.window.event.KeyEvent;
 
 class Runner {
 
@@ -43,12 +44,10 @@ class Runner {
 		Texture groundTexture = new Texture();
 		Texture catTexture = new Texture();
 		Texture jockerTexture = new Texture();
-		Texture jockerMirrorTexture = new Texture();
 		try {
 			groundTexture.loadFromFile(new File("resources/ground.png"));
 			catTexture.loadFromFile(new File("resources/cat.png"));
 			jockerTexture.loadFromFile(new File("resources/jocker.png"));
-			jockerMirrorTexture.loadFromFile(new File("resources/jocker_mirrored.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -79,13 +78,11 @@ class Runner {
 		//objects.add(new StaticTexturedBody(new Vector2f (150, 220), groundTexture));
 		//((TexturedBody) objects.getLast()).scale(4);
 		
-		Player cat = new Player(new Vector2f(300, 80), jockerTexture);
-		cat.scale(2);
-		cat.setObjectManager(objects);
-		cat.setBounded(false);
-		cat.setNormalTexture(jockerTexture);
-		cat.setMirrorTexture(jockerMirrorTexture);
-		objects.add(cat);
+		Player player = new Player(new Vector2f(300, 170), jockerTexture);
+		player.scale(2);
+		player.setObjectManager(objects);
+		player.setBounded(false);
+		objects.add(player);
 		
 		while(window.isOpen()) {
 			deltaTime = frameClock.restart();
@@ -93,17 +90,17 @@ class Runner {
 		    fps = 1/deltaSeconds;
 		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.UP)) {
-		    	cat.jump();
+		    	player.jump();
 		    	//cat.move(0,-2);
 		    } else if (Keyboard.isKeyPressed(Keyboard.Key.DOWN)) {
 		    	//cat.move(0,2);
 		    }
 		    final float SPEED = 200;
 		    if (Keyboard.isKeyPressed(Keyboard.Key.LEFT)) {
-		    	cat.run(-SPEED);
+		    	player.run(-SPEED);
 		    	//cat.move(-2, 0);
 		    }  else if (Keyboard.isKeyPressed(Keyboard.Key.RIGHT)) {
-		    	cat.run(SPEED);
+		    	player.run(SPEED);
 		    	//cat.move(2, 0);
 		    }
 		    
@@ -116,7 +113,7 @@ class Runner {
 			
 		    window.clear(bgColor);
 		    
-		    camera.setActorPos(cat.getPosition());
+		    camera.setActorPos(player.getPosition());
 		    window.setView(cam);
 		    circle.setRotation(deltaSeconds * 50 + circle.getRotation());
 		    window.draw(circle);
@@ -128,11 +125,17 @@ class Runner {
 		    
 		    window.display();
 
-		    //Handle events
+		    // [Handle events]
 		    for(Event event : window.pollEvents()) {
-		        if(event.type == Event.Type.CLOSED) {
-		            //The user pressed the close button
+		        //FIXME switch-case
+		    	if(event.type == Event.Type.CLOSED) {
 		            window.close();
+		        } else if (event.type == Event.Type.KEY_PRESSED) {
+		        	KeyEvent keyEvent = event.asKeyEvent();
+		        	if (keyEvent.key == Keyboard.Key.ESCAPE) {
+		        		System.exit(0);
+		        	}
+		        	
 		        }
 		    }
 		

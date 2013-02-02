@@ -19,9 +19,9 @@ public abstract class AbstractBody implements Drawable{
 	}
 	
 	// Geometry:
-	private Vector2f position;
-	private Vector2f size;
-	private Vector2f origin;
+	protected Vector2f position;
+	protected Vector2f size;
+	protected Vector2f origin;
 	
 	// Behavior:
 	private boolean killer;

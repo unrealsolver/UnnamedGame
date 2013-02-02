@@ -29,17 +29,17 @@ public class ObjectManager {
 		objects.add(body);
 	}
 	
-	//TODO Return object or null
+	//TODO rename object to something else
 	//TODO Rename
-	public boolean testCollision(AbstractBody body) {
+	public AbstractBody testCollision(AbstractBody body) {
 		for(AbstractBody object : objects) {
 			if (object != body) {
 				if (body.checkCollision(object)) {
-					return true;
+					return object;
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	public void drawAll() {
