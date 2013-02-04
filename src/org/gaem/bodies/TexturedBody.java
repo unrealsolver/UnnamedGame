@@ -66,6 +66,6 @@ public class TexturedBody extends AbstractBody {
 
 	@Override
 	public void update(float dt) {
-		
+		fancyBeamUpdate(dt);
 	}
 }

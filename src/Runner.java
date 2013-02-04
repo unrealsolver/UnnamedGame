@@ -67,21 +67,25 @@ class Runner {
 		
 		objects.add(new TexturedBody(new Vector2f (550, 300), new Vector2f(40, 40)));
 		objects.add(new TexturedBody(new Vector2f (600, 180), new Vector2f(300, 30)));
-		objects.add(new TexturedBody(new Vector2f (330, 260), new Vector2f(100, 30)));
+		objects.add(new TexturedBody(new Vector2f (300, 260), new Vector2f(160, 30)));
 		objects.add(new TexturedBody(new Vector2f (600, 180), new Vector2f(30, 240)));
 		objects.add(new TexturedBody(new Vector2f (500, 380), new Vector2f(130, 40)));
 		objects.add(new TexturedBody(new Vector2f (10, 420), new Vector2f(600, 20)));
 		objects.add(new TexturedBody(new Vector2f (10, 0), new Vector2f(20, 440)));
+		objects.add(new TexturedBody(new Vector2f (330, 100), new Vector2f(100, 30)));
+		objects.add(new TexturedBody(new Vector2f (280, 130), new Vector2f(20, 160)));
+		objects.add(new TexturedBody(new Vector2f (460, 130), new Vector2f(20, 160)));
 		objects.add(new TexturedBody(new Vector2f (30, 320), groundTexture));
 		objects.add(new TexturedBody(new Vector2f (30, 220), groundTexture));
 		objects.add(new TexturedBody(new Vector2f (130, 320), groundTexture));
+		
 		//objects.add(new StaticTexturedBody(new Vector2f (150, 220), groundTexture));
 		//((TexturedBody) objects.getLast()).scale(4);
 		
-		Player player = new Player(new Vector2f(300, 170), jockerTexture);
+		Player player = new Player(new Vector2f(340, 170), jockerTexture);
 		player.scale(2);
 		player.setObjectManager(objects);
-		player.setBounded(false);
+		//player.setBounded(false);
 		objects.add(player);
 		
 		while(window.isOpen()) {
@@ -91,9 +95,10 @@ class Runner {
 		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.UP)) {
 		    	player.jump();
-		    	//cat.move(0,-2);
+		    	//player.move(0,-2);
 		    } else if (Keyboard.isKeyPressed(Keyboard.Key.DOWN)) {
 		    	//cat.move(0,2);
+		    	//player.move(0, 2);
 		    }
 		    final float SPEED = 200;
 		    if (Keyboard.isKeyPressed(Keyboard.Key.LEFT)) {
@@ -133,6 +138,7 @@ class Runner {
 		        } else if (event.type == Event.Type.KEY_PRESSED) {
 		        	KeyEvent keyEvent = event.asKeyEvent();
 		        	if (keyEvent.key == Keyboard.Key.ESCAPE) {
+		        		System.out.println("Have a nice day!");
 		        		System.exit(0);
 		        	}
 		        	

@@ -10,7 +10,11 @@ public class ObjectManager {
 // Very important.
 // Not loss.
 	private List<AbstractBody> objects = new ArrayList<AbstractBody>();
-	RenderTarget renderTarget;
+	private RenderTarget renderTarget;
+	
+	public List<AbstractBody> getObjects() {
+		return objects;
+	}
 	
 	public ObjectManager(RenderTarget renderTarget) {
 		super();
@@ -30,8 +34,7 @@ public class ObjectManager {
 	}
 	
 	//TODO rename object to something else
-	//TODO Rename
-	public AbstractBody testCollision(AbstractBody body) {
+	public AbstractBody getCollision(AbstractBody body) {
 		for(AbstractBody object : objects) {
 			if (object != body) {
 				if (body.checkCollision(object)) {

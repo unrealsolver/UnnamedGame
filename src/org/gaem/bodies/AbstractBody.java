@@ -30,6 +30,10 @@ public abstract class AbstractBody implements Drawable{
 	// Drawing:
 	private boolean bounded;
 	
+	// For fun:
+	private int colourRG = 255;
+	private int colourSpd = 370;
+	
 	public AbstractBody() {
 		setPosition(new Vector2f(0, 0));
 		setSize(new Vector2f(10, 10));
@@ -62,7 +66,6 @@ public abstract class AbstractBody implements Drawable{
 	public void setSize(float x, float y) {
 		this.size = new Vector2f(x, y);
 		boundingBox.setSize(size);
-		System.out.println(size);
 	}
 	
 	public void setSize(Vector2f size) {
@@ -101,6 +104,23 @@ public abstract class AbstractBody implements Drawable{
 		this.bounded = bounded;
 	}
 	
+	public void setOutlineColour(Color colour) {
+		boundingBox.setOutlineColor(colour);
+	}
+	
+	//Just for fun:
+	public void fancyBeam() {
+		colourRG = 255;
+	}
+	
+	public void fancyBeamUpdate (float dt) {
+		colourRG -= (int) colourSpd * dt;
+		if (colourRG < 0) {
+			colourRG = 0;
+		}
+		boundingBox.setOutlineColor(new Color(colourRG, colourRG/4, colourRG/6));
+	}
+	
 	// Useful stuff:
 	public void move (Vector2f vector) {
 		//TODO: Implement overloaded Vector2f.add(Vector2f) //SHIT
@@ -112,24 +132,14 @@ public abstract class AbstractBody implements Drawable{
 		move(new Vector2f(x, y));
 	}
 	
-	//TODO ?
 	public boolean checkCollision(AbstractBody other) {
-		FloatRect otherRect = new FloatRect(other.position, other.size);
-		if (otherRect.contains(position) ||
-				otherRect.contains(position.x + size.x, position.y) ||
-				otherRect.contains(position.x, position.y + size.y) ||
-				otherRect.contains(position.x + size.x, position.y + size.y)){
-			return true;
+		float dxPos = this.position.x - other.position.x;
+		if ((this.size.x > -dxPos) && (other.size.x >= dxPos)) {
+			float dyPos = this.position.y - other.position.y;
+			if ((this.size.y > -dyPos) && (other.size.y >= dyPos)) {
+				return true;
+			}
 		}
-		
-		FloatRect thisRect = new FloatRect(this.position, this.size);
-		if (thisRect.contains(other.position) ||
-				thisRect.contains(other.position.x + other.size.x, other.position.y) ||
-				thisRect.contains(other.position.x, other.position.y + other.size.y) ||
-				thisRect.contains(other.position.x + other.size.x, other.position.y + other.size.y)){
-			return true;
-		}
-		
 		return false;
 	}
 	
