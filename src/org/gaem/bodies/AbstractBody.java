@@ -134,9 +134,9 @@ public abstract class AbstractBody implements Drawable{
 	
 	public boolean checkCollision(AbstractBody other) {
 		float dxPos = this.position.x - other.position.x;
-		if ((this.size.x > -dxPos) && (other.size.x >= dxPos)) {
+		if ((this.size.x > -dxPos) && (other.size.x > dxPos)) {
 			float dyPos = this.position.y - other.position.y;
-			if ((this.size.y > -dyPos) && (other.size.y >= dyPos)) {
+			if ((this.size.y > -dyPos) && (other.size.y > dyPos)) {
 				return true;
 			}
 		}

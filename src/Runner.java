@@ -73,8 +73,8 @@ class Runner {
 		objects.add(new TexturedBody(new Vector2f (10, 420), new Vector2f(600, 20)));
 		objects.add(new TexturedBody(new Vector2f (10, 0), new Vector2f(20, 440)));
 		objects.add(new TexturedBody(new Vector2f (330, 100), new Vector2f(100, 30)));
-		objects.add(new TexturedBody(new Vector2f (280, 130), new Vector2f(20, 160)));
-		objects.add(new TexturedBody(new Vector2f (460, 130), new Vector2f(20, 160)));
+		//objects.add(new TexturedBody(new Vector2f (280, 130), new Vector2f(20, 160)));
+		//objects.add(new TexturedBody(new Vector2f (460, 130), new Vector2f(20, 160)));
 		objects.add(new TexturedBody(new Vector2f (30, 320), groundTexture));
 		objects.add(new TexturedBody(new Vector2f (30, 220), groundTexture));
 		objects.add(new TexturedBody(new Vector2f (130, 320), groundTexture));
@@ -82,7 +82,7 @@ class Runner {
 		//objects.add(new StaticTexturedBody(new Vector2f (150, 220), groundTexture));
 		//((TexturedBody) objects.getLast()).scale(4);
 		
-		Player player = new Player(new Vector2f(340, 170), jockerTexture);
+		Player player = new Player(new Vector2f(340, -170), jockerTexture);
 		player.scale(2);
 		player.setObjectManager(objects);
 		//player.setBounded(false);
@@ -93,19 +93,23 @@ class Runner {
 		    deltaSeconds = deltaTime.asSeconds();
 		    fps = 1/deltaSeconds;
 		    
+		    final float SPEED = 200;
+		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.UP)) {
 		    	player.jump();
-		    	//player.move(0,-2);
+		    	//player.move(0, -SPEED);
 		    } else if (Keyboard.isKeyPressed(Keyboard.Key.DOWN)) {
 		    	//cat.move(0,2);
-		    	//player.move(0, 2);
+		    	//player.move(0, SPEED);
 		    }
-		    final float SPEED = 200;
+		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.LEFT)) {
 		    	player.run(-SPEED);
+		    	//player.speedUp(-SPEED, 0);
 		    	//cat.move(-2, 0);
 		    }  else if (Keyboard.isKeyPressed(Keyboard.Key.RIGHT)) {
 		    	player.run(SPEED);
+		    	//player.speedUp(SPEED, 0);
 		    	//cat.move(2, 0);
 		    }
 		    
@@ -140,6 +144,8 @@ class Runner {
 		        	if (keyEvent.key == Keyboard.Key.ESCAPE) {
 		        		System.out.println("Have a nice day!");
 		        		System.exit(0);
+		        	} else if (keyEvent.key == Keyboard.Key.SPACE) {
+		        		player.unlock();
 		        	}
 		        	
 		        }
