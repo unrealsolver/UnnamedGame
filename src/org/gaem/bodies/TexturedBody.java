@@ -19,10 +19,6 @@ public class TexturedBody extends AbstractBody {
 	public TexturedBody(Vector2f position, Texture texture) {
 		super(position, new Vector2f());
 		setTexture(texture);
-		//scale(4);
-		//setSize(10000, 1000);
-		//setSize(10, 100);
-		
 		fitCanvasToTexture();
 		scale(4);
 	}

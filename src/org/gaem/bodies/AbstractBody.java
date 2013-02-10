@@ -152,7 +152,5 @@ public abstract class AbstractBody implements Drawable{
 	// Interface:
 	public abstract void update(float dt);
 
-	//TODO: Just look
-	//draw (RenderTarget, RenderStates) gets from Drawable
 	public abstract void draw(RenderTarget target, RenderStates states);
 }

@@ -1,7 +1,5 @@
 package org.gaem.bodies;
 
-import java.util.List;
-
 import org.gaem.ObjectManager;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Texture;
@@ -65,31 +63,20 @@ public class Player extends TexturedBody {
 		}
 		v = Vector2f.add(v, a);
 		move(v.x * dt, v.y * dt);
-		//lock();
 	}
 	
 	//FIXME Use integer cords. May be.
 	//TODO Move to super
 	@Override
-	public void move(float dx, float dy) {
-		
+	public void move(float dx, float dy) {	
 		float abs_r = (float) Math.sqrt(dx*dx + dy*dy);
 		Vector2f tr = new Vector2f(0, 0);
 		Vector2f ir = new Vector2f(dx/abs_r, dy/abs_r);
 		
-		Vector2f startpos = new Vector2f(this.getPosition());
-		//System.out.println(ir);
-		// // Check direction
-		
 		// Pre-check
 		if (objectManager.getCollision(this) != null) {
 			System.err.println("Unresolved collision!");
-			//lock();
 		}
-		
-		// Initial step
-		//super.move(ir.x, ir.y);
-		//tr = Vector2f.add(tr, ir);
 		
 		// Approximation loop
 		while (Math.abs(tr.x) <= Math.abs(dx) && Math.abs(tr.y) <= Math.abs(dy)) {
@@ -102,9 +89,7 @@ public class Player extends TexturedBody {
 				// step backwards
 				super.move(-ir.x, -ir.y);
 				tr = Vector2f.sub(tr, ir);
-				//lock();
-				//break;
-				
+
 				// try to move DOWN
 				super.move(0, ir.y);
 				
@@ -120,17 +105,12 @@ public class Player extends TexturedBody {
 					// stop moving
 					v = new Vector2f(v.x,0);
 					ir = new Vector2f(ir.x, 0);
-					//lock();
 				} else {
 					// Non-bottom collision
 					isOnGround = false;
 					
 					// try to move LEFT
-					//while (objectManager.getCollision(this) == null){
-						super.move(-1, 0);
-					//}
-					//System.out.println(ir);
-					//lock();
+					super.move(-1, 0);
 					// Check collision
 					collision = objectManager.getCollision(this) != null;
 					
@@ -138,18 +118,13 @@ public class Player extends TexturedBody {
 					super.move(1, 0);
 					
 					if (collision) {
-						//lock();
 						// Left collision
-						//isOnGround = true;
 						// stop moving
 						v = new Vector2f(0, v.y);
 						ir = new Vector2f(0, ir.y);
-						//lock();
 					} else {
 						// try to move RIGHT
-						//while (objectManager.getCollision(this) == null){
-							super.move(1, 0);
-						//}
+						super.move(1, 0);
 						
 						// Check collision
 						collision = collision | (objectManager.getCollision(this) != null);
@@ -158,28 +133,19 @@ public class Player extends TexturedBody {
 						super.move(-1, 0);
 						
 						if (collision) {
-							//lock();
 							// Left collision
-							//isOnGround = true;
 							// stop moving
 							v = new Vector2f(0, v.y);
 							ir = new Vector2f(0, ir.y);
-							//lock();
 						}
 					}
-					//return;
 				}
-				
-				// // Return
-				//super.move(0, -ir.y);
 			}
 			
 			// Exiting from loop if no moving
 			if (ir.x == 0 && ir.y == 0) {
-				//lock();
 				break;
 			}
-			//System.out.println(Vector2f.add(tr, ir));
 		}
 		
 	}

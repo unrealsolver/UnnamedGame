@@ -79,9 +79,6 @@ class Runner {
 		objects.add(new TexturedBody(new Vector2f (30, 220), groundTexture));
 		objects.add(new TexturedBody(new Vector2f (130, 320), groundTexture));
 		
-		//objects.add(new StaticTexturedBody(new Vector2f (150, 220), groundTexture));
-		//((TexturedBody) objects.getLast()).scale(4);
-		
 		Player player = new Player(new Vector2f(340, -170), jockerTexture);
 		player.scale(2);
 		player.setObjectManager(objects);
@@ -97,20 +94,14 @@ class Runner {
 		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.UP)) {
 		    	player.jump();
-		    	//player.move(0, -SPEED);
 		    } else if (Keyboard.isKeyPressed(Keyboard.Key.DOWN)) {
 		    	//cat.move(0,2);
-		    	//player.move(0, SPEED);
 		    }
 		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.LEFT)) {
 		    	player.run(-SPEED);
-		    	//player.speedUp(-SPEED, 0);
-		    	//cat.move(-2, 0);
 		    }  else if (Keyboard.isKeyPressed(Keyboard.Key.RIGHT)) {
 		    	player.run(SPEED);
-		    	//player.speedUp(SPEED, 0);
-		    	//cat.move(2, 0);
 		    }
 		    
 			if (fpsCounter++ > 10) {
