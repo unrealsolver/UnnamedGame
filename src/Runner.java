@@ -65,6 +65,7 @@ class Runner {
 		circle.setOrigin(75, 75);
 		circle.setPosition(100, -100);
 		
+		objects.add(new TexturedBody(new Vector2f (-5000, 600), new Vector2f(10000, 30)));
 		objects.add(new TexturedBody(new Vector2f (550, 300), new Vector2f(40, 40)));
 		objects.add(new TexturedBody(new Vector2f (600, 180), new Vector2f(300, 30)));
 		objects.add(new TexturedBody(new Vector2f (300, 260), new Vector2f(160, 30)));
@@ -72,7 +73,7 @@ class Runner {
 		objects.add(new TexturedBody(new Vector2f (500, 380), new Vector2f(130, 40)));
 		objects.add(new TexturedBody(new Vector2f (10, 420), new Vector2f(600, 20)));
 		objects.add(new TexturedBody(new Vector2f (10, 0), new Vector2f(20, 440)));
-		objects.add(new TexturedBody(new Vector2f (330, 100), new Vector2f(100, 30)));
+		//objects.add(new TexturedBody(new Vector2f (330, 100), new Vector2f(100, 30)));
 		//objects.add(new TexturedBody(new Vector2f (280, 130), new Vector2f(20, 160)));
 		//objects.add(new TexturedBody(new Vector2f (460, 130), new Vector2f(20, 160)));
 		objects.add(new TexturedBody(new Vector2f (30, 320), groundTexture));
@@ -82,7 +83,7 @@ class Runner {
 		Player player = new Player(new Vector2f(340, -170), jockerTexture);
 		player.scale(2);
 		player.setObjectManager(objects);
-		//player.setBounded(false);
+		player.setBounded(false);
 		objects.add(player);
 		
 		while(window.isOpen()) {
@@ -105,7 +106,7 @@ class Runner {
 		    }
 		    
 			if (fpsCounter++ > 10) {
-				fpsText.setString("fps: " + Integer.toString((int) fps));
+				fpsText.setString("FPS: " + Integer.toString((int) fps));
 		    	fpsCounter = 0;
 		    }
 			

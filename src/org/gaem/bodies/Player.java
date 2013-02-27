@@ -4,6 +4,7 @@ import org.gaem.ObjectManager;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
+import org.omg.CORBA.TRANSACTION_MODE;
 
 public class Player extends TexturedBody {
 	//FIXME СРАНЫЙ БАРДАК
@@ -72,6 +73,7 @@ public class Player extends TexturedBody {
 		float abs_r = (float) Math.sqrt(dx*dx + dy*dy);
 		Vector2f tr = new Vector2f(0, 0);
 		Vector2f ir = new Vector2f(dx/abs_r, dy/abs_r);
+		boolean collides; 
 		
 		// Pre-check
 		if (objectManager.getCollision(this) != null) {
@@ -80,74 +82,62 @@ public class Player extends TexturedBody {
 		
 		// Approximation loop
 		while (Math.abs(tr.x) <= Math.abs(dx) && Math.abs(tr.y) <= Math.abs(dy)) {
-			// Next step
+			//step
 			super.move(ir.x, ir.y);
-			tr = Vector2f.add(tr, ir);
+			tr = Vector2f.add(ir, tr);
 			
 			if (objectManager.getCollision(this) != null) {
-				isOnGround = false;
-				// step backwards
+				//step back
 				super.move(-ir.x, -ir.y);
-				tr = Vector2f.sub(tr, ir);
-
-				// try to move DOWN
-				super.move(0, ir.y);
+				tr = Vector2f.sub(ir, tr); //Is it necessary?
 				
-				// Check collision
-				boolean collision = objectManager.getCollision(this) != null;
-				
-				// Return (UP)
-				super.move(0, -ir.y);
-				
-				if (collision) {
-					// Bottom collision
-					isOnGround = true;
-					// stop moving
-					v = new Vector2f(v.x,0);
-					ir = new Vector2f(ir.x, 0);
-				} else {
-					// Non-bottom collision
-					isOnGround = false;
+				if (ir.x != 0) {
+					// Move over X-axis
+					super.move(ir.x, 0);
+					//Test collision
+					collides = objectManager.getCollision(this) != null?true:false;
+					// Return after moving
+					super.move(-ir.x, 0);
 					
-					// try to move LEFT
-					super.move(-1, 0);
-					// Check collision
-					collision = objectManager.getCollision(this) != null;
-					
-					// Return (RIGHT)
-					super.move(1, 0);
-					
-					if (collision) {
-						// Left collision
-						// stop moving
+					if(collides) {
+						//X collision!
+						//resolve X collision
 						v = new Vector2f(0, v.y);
 						ir = new Vector2f(0, ir.y);
-					} else {
-						// try to move RIGHT
-						super.move(1, 0);
-						
-						// Check collision
-						collision = collision | (objectManager.getCollision(this) != null);
-						
-						// Return (LEFT)
-						super.move(-1, 0);
-						
-						if (collision) {
-							// Left collision
-							// stop moving
-							v = new Vector2f(0, v.y);
-							ir = new Vector2f(0, ir.y);
+						//break;
+					}
+					
+				}
+				
+				if (ir.y != 0) {
+					// Move over Y-axis
+					super.move(0, ir.y);
+					//Test collision
+					collides = objectManager.getCollision(this) != null?true:false;
+					// Return after moving
+					super.move(0, -ir.y);
+					
+					if(collides) {
+						//Y collision!
+						//resolve Y collision
+						if (ir.y > 0) {
+							//FIXME Bug: indirect collision will not work!
+							isOnGround = true;
+							v = new Vector2f(v.x/2f, v.y);
+							//ir = new Vector2f(0, ir.y);
 						}
+						v = new Vector2f(v.x, 0);
+						ir = new Vector2f(ir.x, 0);
+						//break;
 					}
 				}
-			}
-			
-			// Exiting from loop if no moving
-			if (ir.x == 0 && ir.y == 0) {
-				break;
+				
+				if (ir.x == 0 && ir.y == 0) {
+					break;
+				}
 			}
 		}
-		
+	
 	}
 	
 	public void jump() {

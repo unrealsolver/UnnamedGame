@@ -21,6 +21,7 @@ public class TexturedBody extends AbstractBody {
 		setTexture(texture);
 		fitCanvasToTexture();
 		scale(4);
+		setBounded(false);
 	}
 	
 	public void setTexture(Texture texture) {
