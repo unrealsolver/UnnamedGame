@@ -45,6 +45,17 @@ public class ObjectManager {
 		return null;
 	}
 	
+	public boolean checkCollision(AbstractBody body) {
+		for(AbstractBody object : objects) {
+			if (object != body) {
+				if (body.checkCollision(object)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void drawAll() {
 		for(AbstractBody object : objects) {
 			renderTarget.draw(object);

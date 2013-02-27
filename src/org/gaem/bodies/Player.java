@@ -95,7 +95,7 @@ public class Player extends TexturedBody {
 					// Move over X-axis
 					super.move(ir.x, 0);
 					//Test collision
-					collides = objectManager.getCollision(this) != null?true:false;
+					collides = objectManager.checkCollision(this);
 					// Return after moving
 					super.move(-ir.x, 0);
 					
@@ -113,7 +113,7 @@ public class Player extends TexturedBody {
 					// Move over Y-axis
 					super.move(0, ir.y);
 					//Test collision
-					collides = objectManager.getCollision(this) != null?true:false;
+					collides = objectManager.checkCollision(this);
 					// Return after moving
 					super.move(0, -ir.y);
 					
