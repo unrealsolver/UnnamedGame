@@ -1,5 +1,6 @@
 package org.gaem.bodies;
 
+import org.gaem.ObjectManager;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.FloatRect;
@@ -23,9 +24,17 @@ public abstract class AbstractBody implements Drawable{
 	protected Vector2f size;
 	protected Vector2f origin;
 	
+	//Physics
+	protected Vector2f v = new Vector2f(0 ,0);
+	
+	//Dependencys
+	protected ObjectManager objectManager;
+	
 	// Behavior:
 	private boolean killer;
 	private boolean immortal;
+	protected boolean collidable;
+	protected boolean isOnGround;
 	
 	// Drawing:
 	private boolean bounded;
@@ -56,6 +65,11 @@ public abstract class AbstractBody implements Drawable{
 	
 	public void setPosition(Vector2f position) {
 		this.position = position;
+		boundingBox.setPosition(position);
+	}
+	
+	public void setPosition(float x, float y) {
+		this.position = new Vector2f(x,y);
 		boundingBox.setPosition(position);
 	}
 	
@@ -122,14 +136,89 @@ public abstract class AbstractBody implements Drawable{
 	}
 	
 	// Useful stuff:
-	public void move (Vector2f vector) {
-		//TODO: Implement overloaded Vector2f.add(Vector2f) //SHIT
-		setPosition(Vector2f.add(position, vector));
+	private void shift(float dx, float dy) {
+		setPosition(position.x + dx, position.y + dy);
+	}
+	
+	public void move (float dx, float dy) {
+		if (collidable) {
+			float abs_r = (float) Math.sqrt(dx*dx + dy*dy);
+			Vector2f tr = new Vector2f(0, 0);
+			Vector2f ir = new Vector2f(dx/abs_r, dy/abs_r);
+			boolean collides; 
+			
+			// Pre-check
+			if (objectManager.getCollision(this) != null) {
+				System.err.println("Unresolved collision!");
+			}
+			
+			// Approximation loop
+			while (Math.abs(tr.x) <= Math.abs(dx) && Math.abs(tr.y) <= Math.abs(dy)) {
+				//step
+				shift(ir.x, ir.y);
+				tr = Vector2f.add(ir, tr);
+				
+				if (objectManager.getCollision(this) != null) {
+					//step back
+					shift(-ir.x, -ir.y);
+					tr = Vector2f.sub(ir, tr); //Is it necessary?
+					
+					if (ir.x != 0) {
+						// Move over X-axis
+						shift(ir.x, 0);
+						//Test collision
+						collides = objectManager.checkCollision(this);
+						// Return after moving
+						shift(-ir.x, 0);
+						
+						if(collides) {
+							//X collision!
+							//resolve X collision
+							v = new Vector2f(0, v.y);
+							ir = new Vector2f(0, ir.y);
+							//break;
+						}
+						
+					}
+					
+					if (ir.y != 0) {
+						// Move over Y-axis
+						shift(0, ir.y);
+						//Test collision
+						collides = objectManager.checkCollision(this);
+						// Return after moving
+						shift(0, -ir.y);
+						
+						if(collides) {
+							//Y collision!
+							//resolve Y collision
+							if (ir.y > 0) {
+								//FIXME Bug: indirect collision will not work!
+								isOnGround = true;
+								v = new Vector2f(v.x/2f, v.y);
+								//ir = new Vector2f(0, ir.y);
+							}
+							v = new Vector2f(v.x, 0);
+							ir = new Vector2f(ir.x, 0);
+							//break;
+						}
+					}
+					
+					if (ir.x == 0 && ir.y == 0) {
+						break;
+					}
+				}
+			}
+		} else {
+			shift(dx, dy);
+		}
+		
+		
 	}
 	
 	//TODO SHIT
-	public void move(float x, float y) {
-		move(new Vector2f(x, y));
+	public void move(Vector2f dr) {
+		move(dr.x, dr.y);
 	}
 	
 	public boolean checkCollision(AbstractBody other) {

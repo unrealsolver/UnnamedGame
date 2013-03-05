@@ -80,10 +80,10 @@ class Runner {
 		objects.add(new TexturedBody(new Vector2f (30, 220), groundTexture));
 		objects.add(new TexturedBody(new Vector2f (130, 320), groundTexture));
 		
-		Player player = new Player(new Vector2f(340, -170), jockerTexture);
+		Player player = new Player(new Vector2f(340, 100), jockerTexture);
 		player.scale(2);
 		player.setObjectManager(objects);
-		player.setBounded(false);
+		//player.setBounded(false);
 		objects.add(player);
 		
 		while(window.isOpen()) {
