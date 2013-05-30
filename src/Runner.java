@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import org.gaem.Camera;
 import org.gaem.ObjectManager;
@@ -16,7 +17,7 @@ class Runner {
 		RenderWindow window = new RenderWindow();
 		window.create(new VideoMode(640, 480), "Hello!");
 		
-		//window.setFramerateLimit(10);
+		window.setFramerateLimit(120);
 		
 		Clock frameClock = new Clock();
 		Time deltaTime;
@@ -34,7 +35,7 @@ class Runner {
 		// [FONTS]
 		Font coolFont = new Font();
 		try {
-		    coolFont.loadFromFile(new File("resources/visitor1.ttf"));
+		    coolFont.loadFromFile(Paths.get("resources", "visitor1.ttf"));
 		} catch(IOException e) {
 		    //Failed to load font
 		    e.printStackTrace();
@@ -45,9 +46,9 @@ class Runner {
 		Texture catTexture = new Texture();
 		Texture jockerTexture = new Texture();
 		try {
-			groundTexture.loadFromFile(new File("resources/ground.png"));
-			catTexture.loadFromFile(new File("resources/cat.png"));
-			jockerTexture.loadFromFile(new File("resources/jocker.png"));
+			groundTexture.loadFromFile(Paths.get("resources", "ground.png"));
+			catTexture.loadFromFile(Paths.get("resources", "cat.png"));
+			jockerTexture.loadFromFile(Paths.get("resources", "jocker.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
