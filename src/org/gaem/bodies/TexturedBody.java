@@ -21,7 +21,7 @@ public class TexturedBody extends AbstractBody {
 		setTexture(texture);
 		fitCanvasToTexture();
 		scale(4);
-		setBounded(false);
+		//setBounded(false);
 	}
 	
 	public void setTexture(Texture texture) {
@@ -57,7 +57,7 @@ public class TexturedBody extends AbstractBody {
 	
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
-		target.draw(sprite, states);
+		//target.draw(sprite, states);
 		drawBoundingBox(target, states);
 	}
 

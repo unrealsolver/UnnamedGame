@@ -2,6 +2,8 @@ package org.gaem.bodies;
 
 import org.gaem.ObjectManager;
 import org.jsfml.graphics.Color;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 import org.omg.CORBA.TRANSACTION_MODE;
@@ -9,7 +11,7 @@ import org.omg.CORBA.TRANSACTION_MODE;
 public class Player extends TexturedBody {
 	//FIXME СРАНЫЙ БАРДАК
 	
-	private Vector2f a = new Vector2f(0, 15);
+	private Vector2f a = new Vector2f(0, 0);
 	
 	private boolean isRunning;
 	private boolean isLocked;
@@ -38,8 +40,8 @@ public class Player extends TexturedBody {
 		isLocked = false;
 		setOutlineColour(Color.BLACK);
 		System.err.println("* Unlocked *");
-		System.out.println("v: " + v);
-		System.out.println(isOnGround);
+		System.out.println("pos: " + position);
+		System.out.println("spd: " + v);
 	}
 	
 	public void setObjectManager(ObjectManager objects) {
@@ -58,11 +60,21 @@ public class Player extends TexturedBody {
 	
 	@Override
 	public void update(float dt) {
+		fancyBeamUpdate(dt);
 		if (isLocked) {
 			return;
 		}
+		
 		v = Vector2f.add(v, a);
 		move(v.x * dt, v.y * dt);
+
+		/*if (Math.abs(v.x) < 1) {
+			v = new Vector2f(0, v.y);
+		}
+		
+		if (Math.abs(v.y) < 1) {
+			v = new Vector2f(v.x, 0);
+		}*/
 	}
 	
 	@Override
@@ -71,6 +83,10 @@ public class Player extends TexturedBody {
 		sprite.setPosition(position.x, position.y);
 	}
 	
+	@Override
+	public void draw(RenderTarget target, RenderStates states) {
+		drawBoundingBox(target, states);
+	}
 	public void jump() {
 		if (isOnGround) {
 			v = new Vector2f(v.x, v.y - 440);

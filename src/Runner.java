@@ -72,6 +72,7 @@ class Runner {
 		objects.add(new TexturedBody(new Vector2f (300, 260), new Vector2f(160, 30)));
 		objects.add(new TexturedBody(new Vector2f (600, 180), new Vector2f(30, 240)));
 		objects.add(new TexturedBody(new Vector2f (500, 380), new Vector2f(130, 40)));
+		objects.add(new TexturedBody(new Vector2f (300, 230), new Vector2f(10, 30)));
 		objects.add(new TexturedBody(new Vector2f (10, 420), new Vector2f(600, 20)));
 		objects.add(new TexturedBody(new Vector2f (10, 0), new Vector2f(20, 440)));
 		//objects.add(new TexturedBody(new Vector2f (330, 100), new Vector2f(100, 30)));

@@ -14,7 +14,7 @@ public abstract class AbstractBody implements Drawable{
 	private RectangleShape boundingBox = new RectangleShape();
 	{
 		boundingBox.setOutlineColor(Color.BLACK);
-		boundingBox.setOutlineThickness(-2);
+		boundingBox.setOutlineThickness(-1);
 		boundingBox.setFillColor(Color.TRANSPARENT);
 		setBounded(true);
 	}
@@ -174,6 +174,7 @@ public abstract class AbstractBody implements Drawable{
 						if(collides) {
 							//X collision!
 							//resolve X collision
+							fancyBeam();
 							v = new Vector2f(0, v.y);
 							ir = new Vector2f(0, ir.y);
 							//break;
@@ -194,8 +195,10 @@ public abstract class AbstractBody implements Drawable{
 							//resolve Y collision
 							if (ir.y > 0) {
 								//FIXME Bug: indirect collision will not work!
-								isOnGround = true;
+								//FIXME Non-generic
 								v = new Vector2f(v.x/2f, v.y);
+								isOnGround = true;
+								
 								//ir = new Vector2f(0, ir.y);
 							}
 							v = new Vector2f(v.x, 0);
