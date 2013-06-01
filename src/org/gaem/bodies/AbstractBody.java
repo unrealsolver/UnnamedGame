@@ -143,6 +143,12 @@ public abstract class AbstractBody implements Drawable{
 	public void move (float dx, float dy) {
 		if (collidable) {
 			float abs_r = (float) Math.sqrt(dx*dx + dy*dy);
+			
+			// Prevent from division by zero
+			if (abs_r == 0) {
+				return;
+			}
+			
 			Vector2f tr = new Vector2f(0, 0);
 			Vector2f ir = new Vector2f(dx/abs_r, dy/abs_r);
 			boolean collides; 
@@ -155,6 +161,7 @@ public abstract class AbstractBody implements Drawable{
 			// Approximation loop
 			while (Math.abs(tr.x) <= Math.abs(dx) && Math.abs(tr.y) <= Math.abs(dy)) {
 				//step
+				
 				shift(ir.x, ir.y);
 				tr = Vector2f.add(ir, tr);
 				
@@ -193,14 +200,6 @@ public abstract class AbstractBody implements Drawable{
 						if(collides) {
 							//Y collision!
 							//resolve Y collision
-							if (ir.y > 0) {
-								//FIXME Bug: indirect collision will not work!
-								//FIXME Non-generic
-								v = new Vector2f(v.x/2f, v.y);
-								isOnGround = true;
-								
-								//ir = new Vector2f(0, ir.y);
-							}
 							v = new Vector2f(v.x, 0);
 							ir = new Vector2f(ir.x, 0);
 							//break;
