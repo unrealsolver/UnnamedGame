@@ -115,6 +115,8 @@ class Runner {
 		    deltaTime = frameClock.restart();
 		    deltaSeconds = deltaTime.asSeconds();
 		    
+		    profiler.setFrameTime(deltaTime.asMicroseconds());
+		    
 		    profilerClock.restart();
 		    objects.updateAll(deltaSeconds);
 		    profiler.setUpdateTime(profilerClock.getElapsedTime().asMicroseconds());
@@ -135,15 +137,16 @@ class Runner {
 		    circle.setRotation(deltaSeconds * 50 + circle.getRotation());
 		    window.draw(circle);
 		    
-		    profilerClock.restart();
+		    
 		    objects.drawAll();
-		    profiler.setDrawTime(profilerClock.getElapsedTime().asMicroseconds());
+		    
 		    
 		    window.setView(window.getDefaultView());
 		    window.draw(fpsText);
 		    window.draw(profiler);
-		    
+		    profilerClock.restart();
 		    window.display();
+		    profiler.setDrawTime(profilerClock.getElapsedTime().asMicroseconds());
 
 		    // [Handle events]
 		    for(Event event : window.pollEvents()) {
