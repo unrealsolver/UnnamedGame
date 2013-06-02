@@ -70,8 +70,8 @@ public class Player extends TexturedBody {
 		
 		if (isOnGround) {
 			if (v.x != 0) {
-				if (v.x > 1) {
-					v = new Vector2f(v.x/2, v.y);
+				if (Math.abs(v.x) > 1) {
+					v = new Vector2f(v.x/1.4f, v.y);
 				} else {
 					v = new Vector2f(0, v.y);
 				}
@@ -85,13 +85,6 @@ public class Player extends TexturedBody {
 			isOnGround = false;
 		}
 		shift(0, -1);
-		/*if (Math.abs(v.x) < 1) {
-			v = new Vector2f(0, v.y);
-		}
-		
-		if (Math.abs(v.y) < 1) {
-			v = new Vector2f(v.x, 0);
-		}*/
 	}
 	
 	@Override
@@ -107,7 +100,7 @@ public class Player extends TexturedBody {
 	
 	public void jump() {
 		if (isOnGround) {
-			v = new Vector2f(v.x, v.y - 440);
+			v = new Vector2f(v.x, -440);
 			isOnGround = false;
 		}
 	}
