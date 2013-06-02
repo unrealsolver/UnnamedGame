@@ -136,28 +136,68 @@ public abstract class AbstractBody implements Drawable{
 	}
 	
 	// Useful stuff:
-	private void shift(float dx, float dy) {
+	public void shift(float dx, float dy) {
 		setPosition(position.x + dx, position.y + dy);
 	}
 	
 	public void move (float dx, float dy) {
 		if (collidable) {
+			//Calculating ort
 			float abs_r = (float) Math.sqrt(dx*dx + dy*dy);
 			
 			// Prevent from division by zero
 			if (abs_r == 0) {
 				return;
 			}
-			
+			//dx = Math.round(dx);
+			//dy = Math.round(dy);
+			Vector2f targetPos = Vector2f.add(position, new Vector2f(Math.round(dx), Math.round(dy)));
 			Vector2f tr = new Vector2f(0, 0);
 			Vector2f ir = new Vector2f(dx/abs_r, dy/abs_r);
-			boolean collides; 
+			float rx = 0, ry = 0;
+			boolean collides;
+			boolean exitFlag = false;
 			
 			// Pre-check
 			if (objectManager.getCollision(this) != null) {
 				System.err.println("Unresolved collision!");
 			}
-			
+			/*
+			while (true) {
+				//Step
+				shift(ir.x, ir.y);
+				rx += ir.x;
+				ry += ir.y;
+				//if collides
+				// []
+				
+				if (objectManager.checkCollision(this)) {
+					shift(-ir.x, -ir.y);
+					rx -= ir.x;
+					ry -= ir.y;
+					v = new Vector2f(0, 0);
+				}
+				
+				//done?
+				if (v.x == 0 && v.y == 0) {
+					return;
+				}
+				
+				if (Math.abs(rx) > Math.abs(dx)) {
+					position = new Vector2f(targetPos.x, position.y);
+					exitFlag = true;
+				}
+				
+				if (Math.abs(ry) > Math.abs(dy)) {
+					position = new Vector2f(position.x, targetPos.y);
+					exitFlag = true;
+				}
+				
+				if (exitFlag) {
+					return;
+				}
+			}*/
+		
 			// Approximation loop
 			while (Math.abs(tr.x) <= Math.abs(dx) && Math.abs(tr.y) <= Math.abs(dy)) {
 				//step
@@ -167,6 +207,7 @@ public abstract class AbstractBody implements Drawable{
 				
 				if (objectManager.getCollision(this) != null) {
 					//step back
+					
 					shift(-ir.x, -ir.y);
 					tr = Vector2f.sub(ir, tr); //Is it necessary?
 					
@@ -181,7 +222,6 @@ public abstract class AbstractBody implements Drawable{
 						if(collides) {
 							//X collision!
 							//resolve X collision
-							fancyBeam();
 							v = new Vector2f(0, v.y);
 							ir = new Vector2f(0, ir.y);
 							//break;
@@ -197,7 +237,7 @@ public abstract class AbstractBody implements Drawable{
 						// Return after moving
 						shift(0, -ir.y);
 						
-						if(collides) {
+						if (collides) {
 							//Y collision!
 							//resolve Y collision
 							v = new Vector2f(v.x, 0);

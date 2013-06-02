@@ -83,22 +83,21 @@ class Runner {
 		objects.add(new TexturedBody(new Vector2f (130, 320), groundTexture));
 		
 		Player player = new Player(new Vector2f(340, 100), jockerTexture);
+		
 		player.scale(2);
 		player.setObjectManager(objects);
 		//player.setBounded(false);
 		objects.add(player);
 		
 		while(window.isOpen()) {
-			deltaTime = frameClock.restart();
-		    deltaSeconds = deltaTime.asSeconds();
-		    fps = 1/deltaSeconds;
 		    
 		    final float SPEED = 200;
 		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.UP)) {
 		    	player.jump();
+		    	//player.move(0, -1);
 		    } else if (Keyboard.isKeyPressed(Keyboard.Key.DOWN)) {
-		    	//cat.move(0,2);
+		    	//player.move(0,1);
 		    }
 		    
 		    if (Keyboard.isKeyPressed(Keyboard.Key.LEFT)) {
@@ -107,12 +106,18 @@ class Runner {
 		    	player.run(SPEED);
 		    }
 		    
-			if (fpsCounter++ > 10) {
+		    deltaTime = frameClock.restart();
+		    deltaSeconds = deltaTime.asSeconds();
+		    objects.updateAll(deltaSeconds);
+		    
+		    fps = 1/deltaSeconds;
+			
+		    if (fpsCounter++ > 10) {
 				fpsText.setString("FPS: " + Integer.toString((int) fps));
 		    	fpsCounter = 0;
 		    }
 			
-			objects.updateAll(deltaSeconds);
+			
 			
 		    window.clear(bgColor);
 		    

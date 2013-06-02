@@ -11,7 +11,7 @@ import org.omg.CORBA.TRANSACTION_MODE;
 public class Player extends TexturedBody {
 	//FIXME СРАНЫЙ БАРДАК
 	
-	private Vector2f a = new Vector2f(0, 0);
+	private Vector2f a = new Vector2f(0, 5);
 	
 	private boolean isRunning;
 	private boolean isLocked;
@@ -67,7 +67,24 @@ public class Player extends TexturedBody {
 		
 		v = Vector2f.add(v, a);
 		move(v.x * dt, v.y * dt);
-
+		
+		if (isOnGround) {
+			if (v.x != 0) {
+				if (v.x > 1) {
+					v = new Vector2f(v.x/2, v.y);
+				} else {
+					v = new Vector2f(0, v.y);
+				}
+			}
+		}
+		
+		shift(0, 1);
+		if (objectManager.checkCollision(this)) {
+			isOnGround = true;
+		} else {
+			isOnGround = false;
+		}
+		shift(0, -1);
 		/*if (Math.abs(v.x) < 1) {
 			v = new Vector2f(0, v.y);
 		}
@@ -87,6 +104,7 @@ public class Player extends TexturedBody {
 	public void draw(RenderTarget target, RenderStates states) {
 		drawBoundingBox(target, states);
 	}
+	
 	public void jump() {
 		if (isOnGround) {
 			v = new Vector2f(v.x, v.y - 440);
