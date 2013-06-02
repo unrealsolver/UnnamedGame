@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 
 import org.gaem.Camera;
 import org.gaem.ObjectManager;
+import org.gaem.VisualProfiler;
 import org.gaem.bodies.*;
 import org.jsfml.graphics.*;
 import org.jsfml.system.*;
@@ -20,6 +21,7 @@ class Runner {
 		window.setFramerateLimit(120);
 		
 		Clock frameClock = new Clock();
+		Clock profilerClock = new Clock();
 		Time deltaTime;
 		float deltaSeconds;
 		float fps;
@@ -89,6 +91,10 @@ class Runner {
 		//player.setBounded(false);
 		objects.add(player);
 		
+		// [PROFILER]
+		VisualProfiler profiler = new VisualProfiler();
+		profiler.setPosition(new Vector2f(300, 15));
+		
 		while(window.isOpen()) {
 		    
 		    final float SPEED = 200;
@@ -108,7 +114,10 @@ class Runner {
 		    
 		    deltaTime = frameClock.restart();
 		    deltaSeconds = deltaTime.asSeconds();
+		    
+		    profilerClock.restart();
 		    objects.updateAll(deltaSeconds);
+		    profiler.setUpdateTime(profilerClock.getElapsedTime().asMicroseconds());
 		    
 		    fps = 1/deltaSeconds;
 			
@@ -126,10 +135,13 @@ class Runner {
 		    circle.setRotation(deltaSeconds * 50 + circle.getRotation());
 		    window.draw(circle);
 		    
+		    profilerClock.restart();
 		    objects.drawAll();
+		    profiler.setDrawTime(profilerClock.getElapsedTime().asMicroseconds());
 		    
 		    window.setView(window.getDefaultView());
 		    window.draw(fpsText);
+		    window.draw(profiler);
 		    
 		    window.display();
 
