@@ -176,7 +176,7 @@ public abstract class AbstractBody implements Drawable{
 					//step back
 					
 					shift(-ir.x, -ir.y);
-					tr = Vector2f.sub(ir, tr); //Is it necessary?
+					tr = Vector2f.sub(ir, tr);
 					
 					if (ir.x != 0) {
 						// Move over X-axis
@@ -189,7 +189,20 @@ public abstract class AbstractBody implements Drawable{
 						if(collides) {
 							//X collision!
 							//resolve X collision
+							
+							//Zero-velocity
 							v = new Vector2f(0, v.y);
+							
+							//Accurate positioning
+							shift(ir.x, 0);
+							AbstractBody other = objectManager.getCollision(this);
+							
+							if (ir.x > 0) {
+								this.setPosition(other.position.x - this.size.x, position.y);
+							} else {
+								this.setPosition(other.position.x + other.size.x, position.y);
+							}
+							
 							if (ir.y != 0) {
 								ir = new Vector2f(0, ir.y > 0 ? 1 : -1);
 							} else {
@@ -211,7 +224,19 @@ public abstract class AbstractBody implements Drawable{
 						if (collides) {
 							//Y collision!
 							//resolve Y collision
+							
+							//Zero-velocity
 							v = new Vector2f(v.x, 0);
+							
+							//Accurate positioning
+							shift(0, ir.y);
+							AbstractBody other = objectManager.getCollision(this);
+							
+							if (ir.y > 0) {
+								this.setPosition(position.x, other.position.y - this.size.y);
+							} else {
+								this.setPosition(position.y, other.position.y + other.size.y);
+							}
 							
 							if (ir.x != 0) {
 								ir = new Vector2f(ir.x > 0 ? 1 : -1, 0);
