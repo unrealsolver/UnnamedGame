@@ -150,14 +150,9 @@ public abstract class AbstractBody implements Drawable{
 				return;
 			}
 			
-			//dx = Math.round(dx);
-			//dy = Math.round(dy);
-			Vector2f targetPos = Vector2f.add(position, new Vector2f(Math.round(dx), Math.round(dy)));
 			Vector2f tr = new Vector2f(0, 0);
 			Vector2f ir = new Vector2f(dx/abs_r, dy/abs_r);
-			float rx = 0, ry = 0;
 			boolean collides;
-			boolean exitFlag = false;
 			
 			// Pre-check
 			if (objectManager.getCollision(this) != null) {
