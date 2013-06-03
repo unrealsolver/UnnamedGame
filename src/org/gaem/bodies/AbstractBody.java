@@ -230,7 +230,7 @@ public abstract class AbstractBody implements Drawable{
 							if (ir.y > 0) {
 								this.setPosition(position.x, other.position.y - this.size.y);
 							} else {
-								this.setPosition(position.y, other.position.y + other.size.y);
+								this.setPosition(position.x, other.position.y + other.size.y);
 							}
 							
 							if (ir.x != 0) {
