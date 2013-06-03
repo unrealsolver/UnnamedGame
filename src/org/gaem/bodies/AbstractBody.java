@@ -149,6 +149,7 @@ public abstract class AbstractBody implements Drawable{
 			if (abs_r == 0) {
 				return;
 			}
+			
 			//dx = Math.round(dx);
 			//dy = Math.round(dy);
 			Vector2f targetPos = Vector2f.add(position, new Vector2f(Math.round(dx), Math.round(dy)));
@@ -162,41 +163,7 @@ public abstract class AbstractBody implements Drawable{
 			if (objectManager.getCollision(this) != null) {
 				System.err.println("Unresolved collision!");
 			}
-			/*
-			while (true) {
-				//Step
-				shift(ir.x, ir.y);
-				rx += ir.x;
-				ry += ir.y;
-				//if collides
-				// []
-				
-				if (objectManager.checkCollision(this)) {
-					shift(-ir.x, -ir.y);
-					rx -= ir.x;
-					ry -= ir.y;
-					v = new Vector2f(0, 0);
-				}
-				
-				//done?
-				if (v.x == 0 && v.y == 0) {
-					return;
-				}
-				
-				if (Math.abs(rx) > Math.abs(dx)) {
-					position = new Vector2f(targetPos.x, position.y);
-					exitFlag = true;
-				}
-				
-				if (Math.abs(ry) > Math.abs(dy)) {
-					position = new Vector2f(position.x, targetPos.y);
-					exitFlag = true;
-				}
-				
-				if (exitFlag) {
-					return;
-				}
-			}*/
+			
 		
 			// Approximation loop
 			while (Math.abs(tr.x) <= Math.abs(dx) && Math.abs(tr.y) <= Math.abs(dy)) {
@@ -223,8 +190,12 @@ public abstract class AbstractBody implements Drawable{
 							//X collision!
 							//resolve X collision
 							v = new Vector2f(0, v.y);
-							ir = new Vector2f(0, ir.y);
-							//break;
+							if (ir.y != 0) {
+								ir = new Vector2f(0, ir.y > 0 ? 1 : -1);
+							} else {
+								break;
+							}
+							
 						}
 						
 					}
@@ -241,13 +212,13 @@ public abstract class AbstractBody implements Drawable{
 							//Y collision!
 							//resolve Y collision
 							v = new Vector2f(v.x, 0);
-							ir = new Vector2f(ir.x, 0);
-							//break;
+							
+							if (ir.x != 0) {
+								ir = new Vector2f(ir.x > 0 ? 1 : -1, 0);
+							} else {
+								break;
+							}
 						}
-					}
-					
-					if (ir.x == 0 && ir.y == 0) {
-						break;
 					}
 				}
 			}
