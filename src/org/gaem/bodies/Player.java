@@ -11,10 +11,11 @@ import org.omg.CORBA.TRANSACTION_MODE;
 public class Player extends TexturedBody {
 	//FIXME СРАНЫЙ БАРДАК
 	
-	private Vector2f a = new Vector2f(0, 5);
+	private Vector2f a = new Vector2f(0, 1000);
 	
 	private boolean isRunning;
 	private boolean isLocked;
+	private float startJumpHeight;
 	
 	public Player(Vector2f position, Vector2f size, Texture texture) {
 		super(position, size, texture);
@@ -65,7 +66,7 @@ public class Player extends TexturedBody {
 			return;
 		}
 		
-		v = Vector2f.add(v, a);
+		v = Vector2f.add(v, new Vector2f(0, a.y*dt));
 		move(v.x * dt, v.y * dt);
 		
 		if (isOnGround) {
@@ -85,6 +86,15 @@ public class Player extends TexturedBody {
 			isOnGround = false;
 		}
 		shift(0, -1);
+		
+		//System.out.println(v.y);
+		
+		if (Math.abs(v.y) <= 8) {
+			if (!isOnGround) {
+				//System.out.println(v.y);
+				System.out.println("Jmp height: " + (startJumpHeight - position.y));
+			}
+		}
 	}
 	
 	@Override
@@ -100,7 +110,8 @@ public class Player extends TexturedBody {
 	
 	public void jump() {
 		if (isOnGround) {
-			v = new Vector2f(v.x, -440);
+			v = new Vector2f(v.x, -460);
+			startJumpHeight = position.y;
 			isOnGround = false;
 		}
 	}

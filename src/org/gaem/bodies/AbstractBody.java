@@ -150,6 +150,7 @@ public abstract class AbstractBody implements Drawable{
 				return;
 			}
 			
+			Vector2f initPos = new Vector2f(position.x, position.y);
 			Vector2f tr = new Vector2f(0, 0);
 			Vector2f ir = new Vector2f(dx/abs_r, dy/abs_r);
 			boolean collides;
@@ -161,7 +162,20 @@ public abstract class AbstractBody implements Drawable{
 			
 		
 			// Approximation loop
-			while (Math.abs(tr.x) <= Math.abs(dx) && Math.abs(tr.y) <= Math.abs(dy)) {
+			while (true) {
+				if (Math.abs(tr.x) > Math.abs(dx)) {
+					break;
+				}
+				
+				if (Math.abs(tr.y) > Math.abs(dy)) {
+					Vector2f tmp = new Vector2f(position.x, position.y);
+					setPosition(position.x, initPos.y + dy);
+					if (objectManager.checkCollision(this)) {
+						System.out.println(position.y - tmp.x);
+						position = tmp;
+					}
+					return;
+				}
 				//step
 				
 				shift(ir.x, ir.y);
