@@ -163,15 +163,21 @@ public abstract class AbstractBody implements Drawable{
 		
 			// Approximation loop
 			while (true) {
+				//FIXME duplicate
 				if (Math.abs(tr.x) > Math.abs(dx)) {
-					break;
+					Vector2f tmp = new Vector2f(position.x, position.y);
+					setPosition(position.x, initPos.y + dy);
+					if (objectManager.checkCollision(this)) {
+						position = tmp;
+					}
+					return;
 				}
 				
+				//FIXME and this (but it works)
 				if (Math.abs(tr.y) > Math.abs(dy)) {
 					Vector2f tmp = new Vector2f(position.x, position.y);
 					setPosition(position.x, initPos.y + dy);
 					if (objectManager.checkCollision(this)) {
-						System.out.println(position.y - tmp.x);
 						position = tmp;
 					}
 					return;
